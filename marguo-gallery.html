@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOUIS MAS — MARGUO GALLERY</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --font-main: 'IBM Plex Mono', monospace; --spacing: 20px; --header-height: 48px; }
+        body {
+            margin: 0; background: #FFF; color: #000;
+            font-family: var(--font-main); display: flex; flex-direction: column; min-height: 100vh;
+            font-size: clamp(0.9rem, 1.1vw, 1.1rem);
+        }
+        a { color: inherit; text-decoration: none; }
+
+        .header-nav {
+            position: fixed; top: 0; left: 0; width: 100%; height: var(--header-height);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 var(--spacing); z-index: 100;
+            font-size: clamp(0.9rem, 1.2vw, 1.2rem); font-weight: 700;
+            mix-blend-mode: difference; color: #FFF;
+        }
+        .header-nav nav a { margin-left: 20px; }
+
+        .video-container { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; }
+        .video-container iframe { position: absolute; top:0; left:0; width: 100%; height: 100%; border: 0; }
+
+        .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; background: #000; display: flex; justify-content: center; align-items: center; cursor: pointer; }
+        .overlay img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
+        .play-btn { position: absolute; z-index: 3; color: #FFF; font-size: 4rem; }
+
+        .info-grid { padding: 40px var(--spacing); display: grid; grid-template-columns: 1fr 2fr; gap: 40px; }
+        .info-grid h1 { font-size: clamp(1.8rem, 5vw, 3rem); margin: 0 0 10px 0; }
+        .info-grid p, .info-grid strong { font-size: clamp(0.9rem, 1.1vw, 1.1rem); }
+
+        .footer {
+            padding: var(--spacing); border-top: 1px solid #DDD; margin-top: auto;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: clamp(0.7rem, 0.9vw, 0.9rem); height: var(--header-height);
+        }
+        @media(max-width:768px){ .info-grid{grid-template-columns:1fr;} }
+    </style>
+</head>
+<body>
+    <header class="header-nav">
+        <a href="index.html">LOUIS MAS</a>
+        <nav>
+            <a href="index.html">INDEX</a>
+            <a href="mailto:louismas@tuta.com">EMAIL</a>
+            <a href="https://www.instagram.com/louis__mas" target="_blank">IG</a>
+        </nav>
+    </header>
+
+    <div class="video-container">
+        <div class="overlay" onclick="this.style.display='none';document.getElementById('v-target').innerHTML='<iframe src=\'https://player.vimeo.com/video/695813702?autoplay=1\' allowfullscreen></iframe>'">
+            <img src="assets/Marguo_thumbnail.jpg" alt="Cover">
+            <div class="play-btn">▶</div>
+        </div>
+        <div id="v-target"></div>
+    </div>
+
+    <div class="info-grid">
+        <div><h1>MARGUO GALLERY</h1><p>Art Film</p></div>
+        <div>
+            <p>Art film about painter Ibrahim Soimadou in his atelier sharing about his practice.</p>
+            <p><strong>DIRECTOR</strong><br>Ibrahim Soimadou</p>
+            <p><strong>FILM</strong><br>Kodak 16mm</p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div id="dateDisplay"></div>
+        <div>&copy; 2025 All Rights Reserved</div>
+    </footer>
+
+    <script>
+        setInterval(() => {
+            document.getElementById('dateDisplay').textContent = new Date().toLocaleString('en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric', hour:'2-digit', minute:'2-digit', hour12:false});
+        }, 1000);
+    </script>
+</body>
+</html>
