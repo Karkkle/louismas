@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Louis Mas — Portfolio. Director and Photographer based in London.">
     <title>LOUIS MAS — WORK</title>
+
+    <!-- SPEED OPTIMIZATION: Preconnect to Vimeo servers -->
+    <link rel="preconnect" href="https://player.vimeo.com">
+    <link rel="preconnect" href="https://i.vimeocdn.com">
+    <link rel="preconnect" href="https://f.vimeocdn.com">
+
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://player.vimeo.com/api/player.js"></script>
 
@@ -64,7 +70,14 @@
             overflow: hidden; border-bottom: 1px solid var(--color-accent);
         }
         .media-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #111; }
-        .media-container iframe { width: 100%; height: 100%; border: 0; pointer-events: none; position: absolute; top:0; left:0; }
+
+        /* UX OPTIMIZATION: Smooth fade-in for iframes */
+        .media-container iframe {
+            width: 100%; height: 100%; border: 0; pointer-events: none; position: absolute; top:0; left:0;
+            opacity: 0; transition: opacity 1s ease-in-out;
+        }
+        .media-container iframe.loaded { opacity: 1; }
+
         .media-container img { width: 100%; height: 100%; object-fit: cover; }
 
         /* PROJECT OVERLAYS */
@@ -180,10 +193,10 @@
         </nav>
     </header>
 
-    <!-- HEADER VIDEO (Loads immediately) -->
+    <!-- HEADER VIDEO (Loads immediately, fades in) -->
     <div class="project-block" id="project-one">
         <div class="media-container">
-            <iframe src="https://player.vimeo.com/video/1020150270?h=e97ca1bfd4&autoplay=1&loop=1&title=0&byline=0&portrait=0&background=1&muted=1" allow="autoplay; fullscreen" allowfullscreen></iframe>
+            <iframe src="https://player.vimeo.com/video/1020150270?h=e97ca1bfd4&autoplay=1&loop=1&title=0&byline=0&portrait=0&background=1&muted=1" allow="autoplay; fullscreen" allowfullscreen onload="this.classList.add('loaded')"></iframe>
         </div>
         <div class="audio-toggle">
             <svg class="icon-unmute" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73 4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
@@ -212,7 +225,7 @@
         </div>
     </section>
 
-    <!-- PROJECT BLOCKS (Smart Lazy Loading) -->
+    <!-- PROJECT BLOCKS (Smart Lazy Loading + Fade In) -->
 
     <a href="dont-wake-the-sleeping-child.html" class="project-block" id="dont-wake">
         <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/1139713842?h=f32f84e024&autoplay=1&loop=1&title=0&byline=0&portrait=0&background=1&muted=1">
@@ -440,7 +453,7 @@
             });
         });
 
-        // SMART LAZY LOADING (Mobile Speed Fix)
+        // SMART LAZY LOADING (Mobile Speed Fix) WITH SMOOTH FADE IN
         document.addEventListener("DOMContentLoaded", function() {
             const lazyVideos = document.querySelectorAll('.lazy-video-container');
 
@@ -450,9 +463,31 @@
                         if (entry.isIntersecting) {
                             const container = entry.target;
                             const videoSrc = container.dataset.vimeo;
+
                             // Only create iframe if it doesn't exist
                             if (videoSrc && !container.querySelector('iframe')) {
-                                container.innerHTML = `<iframe src="${videoSrc}" allow="autoplay; fullscreen" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"></iframe>`;
+                                // Create iframe element programmatically
+                                const iframe = document.createElement('iframe');
+                                iframe.src = videoSrc;
+                                iframe.setAttribute('allow', 'autoplay; fullscreen');
+                                iframe.setAttribute('allowfullscreen', '');
+                                iframe.style.position = 'absolute';
+                                iframe.style.top = '0';
+                                iframe.style.left = '0';
+                                iframe.style.width = '100%';
+                                iframe.style.height = '100%';
+                                iframe.style.border = '0';
+                                iframe.style.zIndex = '2'; // Sit on top of image
+
+                                // Fade in on load
+                                iframe.onload = function() {
+                                    // Small delay to allow player initialization inside iframe
+                                    setTimeout(() => {
+                                        iframe.classList.add('loaded');
+                                    }, 500);
+                                };
+
+                                container.appendChild(iframe);
                             }
                             observer.unobserve(container);
                         }
