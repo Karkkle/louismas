@@ -66,7 +66,7 @@
             overflow: hidden; border-bottom: 1px solid var(--color-accent);
         }
         .media-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #111; }
-        .media-container iframe { width: 100%; height: 100%; border: 0; pointer-events: none; }
+        .media-container iframe { width: 100%; height: 100%; border: 0; pointer-events: none; position: absolute; top:0; left:0; }
         .media-container img { width: 100%; height: 100%; object-fit: cover; }
 
         /* PROJECT OVERLAYS - FLUID TYPE */
@@ -184,7 +184,7 @@
         </nav>
     </header>
 
-    <!-- PROJECT 1 (Header Video) - Loads immediately -->
+    <!-- PROJECT 1 (Header Video) - Loads immediately (HERO) -->
     <div class="project-block" id="project-one">
         <div class="media-container">
             <iframe src="https://player.vimeo.com/video/1020150270?h=e97ca1bfd4&autoplay=1&loop=1&title=0&byline=0&portrait=0&background=1&muted=1" allow="autoplay; fullscreen" allowfullscreen></iframe>
@@ -202,7 +202,6 @@
             <a href="mailto:louismas@tuta.com">louismas[at]tuta.com</a>
             <a href="https://instagram.com" target="_blank" data-thumb="Instagram_thumbnail">Instagram</a>
         </div>
-        <!-- LINKS CHANGED TO ANCHORS FOR SCROLLING EFFECT -->
         <div class="info-col">
             <a href="#dont-wake" data-thumb="Dont_wake_the_sleeping_child_thumbnail">DON'T WAKE THE SLEEPING CHILD</a>
             <a href="#sam-harry" data-thumb="Sam_harry_macgregor_thumbnail">SAM HARRY MACGREGOR</a>
@@ -217,12 +216,12 @@
         </div>
     </section>
 
-    <!-- PROJECT BLOCKS WITH IDs -->
-    <!-- ADDED loading="lazy" to all frames below here -->
+    <!-- PROJECT BLOCKS -->
 
+    <!-- 1. DONT WAKE -->
     <a href="dont-wake-the-sleeping-child.html" class="project-block" id="dont-wake">
-        <div class="media-container">
-            <iframe src="https://player.vimeo.com/video/1139713842?h=f32f84e024&autoplay=1&loop=1&title=0&byline=0&portrait=0&background=1&muted=1" allow="autoplay; fullscreen" loading="lazy"></iframe>
+        <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/1139713842?h=f32f84e024&autoplay=1&loop=1&title=0&byline=0&portrait=0&background=1&muted=1">
+            <img src="assets/Dont_wake_the_sleeping_child_thumbnail.jpg" alt="Don't Wake The Sleeping Child">
         </div>
         <div class="project-title">
             <h2>DON'T WAKE THE SLEEPING CHILD</h2>
@@ -231,6 +230,7 @@
         <div class="cta-label">WATCH FILM ></div>
     </a>
 
+    <!-- 2. SAM HARRY (Image Only) -->
     <a href="sam-harry-macgregor.html" class="project-block" id="sam-harry">
         <div class="media-container">
             <img src="assets/Sam_Harry_Macgregor_04.jpg" alt="Sam Harry Macgregor">
@@ -242,9 +242,10 @@
         <div class="cta-label">VIEW PROJECT ></div>
     </a>
 
+    <!-- 3. OPEN HOUSE -->
     <a href="open-house-magazine.html" class="project-block" id="open-house">
-        <div class="media-container">
-            <iframe src="https://player.vimeo.com/video/827998796?h=f501235385&autoplay=1&loop=1&background=1&muted=1" allow="autoplay; fullscreen" loading="lazy"></iframe>
+        <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/827998796?h=f501235385&autoplay=1&loop=1&background=1&muted=1">
+            <img src="assets/Open_House_Thumbnail.jpg" alt="Open House Magazine">
         </div>
         <div class="project-title">
             <h2>OPEN HOUSE MAGAZINE</h2>
@@ -253,6 +254,7 @@
         <div class="cta-label">WATCH FILM ></div>
     </a>
 
+    <!-- 4. AVANT ARTE (Image Only) -->
     <a href="avant-arte-david-rudnick.html" class="project-block" id="avant-arte">
         <div class="media-container">
             <img src="assets/Avant-arte_david_rudnick_01.jpg" alt="Avant Arte">
@@ -264,9 +266,10 @@
         <div class="cta-label">VIEW PROJECT ></div>
     </a>
 
+    <!-- 5. SOMETIMES -->
     <a href="sometimes-manast-ll.html" class="project-block" id="sometimes">
-        <div class="media-container">
-            <iframe src="https://player.vimeo.com/video/365320979?autoplay=1&loop=1&background=1&muted=1" allow="autoplay; fullscreen" loading="lazy"></iframe>
+        <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/365320979?autoplay=1&loop=1&background=1&muted=1">
+            <img src="assets/Sometimes_thumbnail.jpg" alt="Sometimes">
         </div>
         <div class="project-title">
             <h2>SOMETIMES</h2>
@@ -275,9 +278,10 @@
         <div class="cta-label">WATCH FILM ></div>
     </a>
 
+    <!-- 6. BEAUGAN -->
     <a href="beaugan.html" class="project-block" id="beaugan">
-        <div class="media-container">
-            <iframe src="https://player.vimeo.com/video/350279655?h=683fb71a10&autoplay=1&loop=1&background=1&muted=1" allow="autoplay; fullscreen" loading="lazy"></iframe>
+        <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/350279655?h=683fb71a10&autoplay=1&loop=1&background=1&muted=1">
+            <img src="assets/Beaugan_thumbnail.jpg" alt="Beaugan">
         </div>
         <div class="project-title">
             <h2>BEAUGAN</h2>
@@ -286,9 +290,10 @@
         <div class="cta-label">WATCH FILM ></div>
     </a>
 
+    <!-- 7. MARGUO -->
     <a href="marguo-gallery.html" class="project-block" id="marguo">
-        <div class="media-container">
-            <iframe src="https://player.vimeo.com/video/695813702?autoplay=1&loop=1&background=1&muted=1" allow="autoplay; fullscreen" loading="lazy"></iframe>
+        <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/695813702?autoplay=1&loop=1&background=1&muted=1">
+            <img src="assets/Marguo_thumbnail.jpg" alt="Marguo Gallery">
         </div>
         <div class="project-title">
             <h2>MARGUO GALLERY</h2>
@@ -297,9 +302,10 @@
         <div class="cta-label">WATCH FILM ></div>
     </a>
 
+    <!-- 8. ALL STAR -->
     <a href="all-star-manast-ll.html" class="project-block" id="all-star">
-        <div class="media-container">
-            <iframe src="https://player.vimeo.com/video/400239998?autoplay=1&loop=1&background=1&muted=1" allow="autoplay; fullscreen" loading="lazy"></iframe>
+        <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/400239998?autoplay=1&loop=1&background=1&muted=1">
+            <img src="assets/All_star_thumbnail.jpg" alt="All Star">
         </div>
         <div class="project-title">
             <h2>ALL STAR</h2>
@@ -328,7 +334,6 @@
         <div class="overlay-content">
             <img src="assets/Louis_Mas_BTS_01.jpg" alt="Louis Mas">
             <div class="bio-text">
-                <!-- BIO -->
                 <div class="bio-block">
                     <div class="bio-label">BIO</div>
                     <div class="bio-desc">
@@ -342,7 +347,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- GUEST ROOM -->
                 <div class="bio-block">
                     <div class="bio-label">
                         <span id="guest-title-en">THE GUEST ROOM</span>
@@ -388,8 +392,6 @@
         // LANGUAGE SWITCHER
         const btnEn = document.getElementById('btn-en');
         const btnFr = document.getElementById('btn-fr');
-
-        // Elements to toggle
         const bioEn = document.getElementById('bio-en');
         const bioFr = document.getElementById('bio-fr');
         const guestTitleEn = document.getElementById('guest-title-en');
@@ -398,31 +400,17 @@
         const guestDescFr = document.getElementById('guest-desc-fr');
 
         btnEn.addEventListener('click', () => {
-            btnEn.classList.add('active');
-            btnFr.classList.remove('active');
-
-            bioEn.style.display = 'block';
-            bioFr.style.display = 'none';
-
-            guestTitleEn.style.display = 'inline';
-            guestTitleFr.style.display = 'none';
-
-            guestDescEn.style.display = 'block';
-            guestDescFr.style.display = 'none';
+            btnEn.classList.add('active'); btnFr.classList.remove('active');
+            bioEn.style.display = 'block'; bioFr.style.display = 'none';
+            guestTitleEn.style.display = 'inline'; guestTitleFr.style.display = 'none';
+            guestDescEn.style.display = 'block'; guestDescFr.style.display = 'none';
         });
 
         btnFr.addEventListener('click', () => {
-            btnFr.classList.add('active');
-            btnEn.classList.remove('active');
-
-            bioFr.style.display = 'block';
-            bioEn.style.display = 'none';
-
-            guestTitleFr.style.display = 'inline';
-            guestTitleEn.style.display = 'none';
-
-            guestDescFr.style.display = 'block';
-            guestDescEn.style.display = 'none';
+            btnFr.classList.add('active'); btnEn.classList.remove('active');
+            bioFr.style.display = 'block'; bioEn.style.display = 'none';
+            guestTitleFr.style.display = 'inline'; guestTitleEn.style.display = 'none';
+            guestDescFr.style.display = 'block'; guestDescEn.style.display = 'none';
         });
 
         // HOVER PREVIEW
@@ -450,13 +438,41 @@
             btn.addEventListener('click', (e) => {
                 e.preventDefault(); e.stopPropagation();
                 const iframe = btn.closest('.project-block').querySelector('iframe');
-                const player = new Vimeo.Player(iframe);
-                player.getVolume().then(v => {
-                    const newVol = v === 0 ? 1 : 0;
-                    player.setVolume(newVol);
-                    btn.classList.toggle('sound-on', newVol === 1);
-                });
+                if (iframe) {
+                    const player = new Vimeo.Player(iframe);
+                    player.getVolume().then(v => {
+                        const newVol = v === 0 ? 1 : 0;
+                        player.setVolume(newVol);
+                        btn.classList.toggle('sound-on', newVol === 1);
+                    });
+                }
             });
+        });
+
+        // SMART LAZY LOADING (VIDEO SWAP)
+        document.addEventListener("DOMContentLoaded", function() {
+            const lazyVideos = document.querySelectorAll('.lazy-video-container');
+
+            if ("IntersectionObserver" in window) {
+                const videoObserver = new IntersectionObserver(function(entries, observer) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            const container = entry.target;
+                            const videoSrc = container.dataset.vimeo;
+                            // Only create iframe if it doesn't exist yet
+                            if (videoSrc && !container.querySelector('iframe')) {
+                                container.innerHTML = `<iframe src="${videoSrc}" allow="autoplay; fullscreen" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"></iframe>`;
+                            }
+                            // Stop observing once loaded to keep it there
+                            observer.unobserve(container);
+                        }
+                    });
+                }, { rootMargin: "200px" }); // Preload when it is 200px away from view
+
+                lazyVideos.forEach(function(video) {
+                    videoObserver.observe(video);
+                });
+            }
         });
     </script>
 </body>
