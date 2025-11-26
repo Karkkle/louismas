@@ -154,7 +154,11 @@
         @media (max-width: 768px) {
             .info-section, .overlay-content, .bio-block { grid-template-columns: 1fr; gap: 30px; }
             .bio-block { flex-direction: column; gap: 10px; }
-            .project-title h2 { font-size: clamp(3rem, 7vw, 7.5rem); }
+
+            /* UPDATED: Significantly smaller titles on mobile */
+            .project-title h2 { font-size: clamp(1.5rem, 5vw, 3rem); }
+            .project-subtitle { font-size: 0.8rem; }
+
             .header-nav { font-size: 0.9rem; }
             #hover-preview { display: none !important; }
         }
