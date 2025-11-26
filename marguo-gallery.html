@@ -6,14 +6,40 @@
     <title>LOUIS MAS — MARGUO GALLERY</title>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --font-main: 'IBM Plex Mono', monospace; --spacing: 20px; --header-height: 48px; }
+        /* --- CORE STYLES --- */
+        :root {
+            --color-bg: #000000;
+            --color-text: #EFEFEF;
+            --color-accent: #1A1A1A;
+            --font-main: 'IBM Plex Mono', monospace;
+            --header-height: 48px;
+            --spacing: 20px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; cursor: none !important; }
+        html, body { min-height: 100%; }
         body {
-            margin: 0; background: #FFF; color: #000;
+            background-color: #FFF; color: #000;
             font-family: var(--font-main); display: flex; flex-direction: column; min-height: 100vh;
             font-size: clamp(0.9rem, 1.1vw, 1.1rem);
+            overflow-x: hidden;
         }
         a { color: inherit; text-decoration: none; }
 
+        /* CUSTOM CURSOR */
+        #custom-cursor {
+            position: fixed; top: 0; left: 0; width: 20px; height: 20px; pointer-events: none;
+            z-index: 9999; transform: translate(-50%, -50%); mix-blend-mode: difference;
+        }
+        #custom-cursor::before, #custom-cursor::after {
+            content: ''; position: absolute; top: 50%; left: 50%; background-color: #FFF;
+            transform: translate(-50%, -50%); transition: all 0.2s ease;
+        }
+        #custom-cursor::before { width: 2px; height: 100%; }
+        #custom-cursor::after { width: 100%; height: 2px; }
+        body.hovering #custom-cursor::before { width: 4px; }
+        body.hovering #custom-cursor::after { height: 4px; }
+
+        /* NAVIGATION */
         .header-nav {
             position: fixed; top: 0; left: 0; width: 100%; height: var(--header-height);
             display: flex; justify-content: space-between; align-items: center;
@@ -23,30 +49,61 @@
         }
         .header-nav nav a { margin-left: 20px; }
 
+        /* VIDEO PLAYER */
         .video-container { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; }
         .video-container iframe { position: absolute; top:0; left:0; width: 100%; height: 100%; border: 0; }
-
         .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; background: #000; display: flex; justify-content: center; align-items: center; cursor: pointer; }
         .overlay img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
-        .play-btn { position: absolute; z-index: 3; color: #FFF; font-size: 4rem; }
+        .play-btn { position: absolute; z-index: 3; color: #FFF; font-size: 4rem; filter: drop-shadow(0 0 10px rgba(0,0,0,0.5)); }
 
-        .info-grid { padding: 40px var(--spacing); display: grid; grid-template-columns: 1fr 2fr; gap: 40px; }
+        .info-grid { padding: 40px var(--spacing); display: grid; grid-template-columns: 1fr 2fr; gap: 40px; border-bottom: 1px solid #DDD; }
         .info-grid h1 { font-size: clamp(1.8rem, 5vw, 3rem); margin: 0 0 10px 0; }
         .info-grid p, .info-grid strong { font-size: clamp(0.9rem, 1.1vw, 1.1rem); }
 
+        /* FOOTER */
         .footer {
-            padding: var(--spacing); border-top: 1px solid #DDD; margin-top: auto;
-            display: flex; justify-content: space-between; align-items: center;
+            padding: var(--spacing); display: flex; justify-content: space-between; align-items: center;
+            margin-top: auto; border-top: 1px solid #DDD;
             font-size: clamp(0.7rem, 0.9vw, 0.9rem); height: var(--header-height);
         }
-        @media(max-width:768px){ .info-grid{grid-template-columns:1fr;} }
+
+        /* INFO OVERLAY STYLES */
+        .info-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #F5F5F5; color: #1A1A1A; z-index: 2000; padding: var(--spacing);
+            display: none; flex-direction: column; overflow-y: auto;
+        }
+        .info-overlay.active { display: flex; }
+        .overlay-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; font-weight: 700; font-size: clamp(0.9rem, 1.2vw, 1.2rem); }
+        .header-left-group { display: flex; align-items: center; gap: 20px; }
+        .lang-switch { display: flex; gap: 10px; user-select: none; }
+        .lang-option { opacity: 0.4; transition: opacity 0.2s; cursor: none; }
+        .lang-option:hover, .lang-option.active { opacity: 1; text-decoration: underline; }
+        .close-btn { cursor: none; border-bottom: 1px solid transparent; }
+        .close-btn:hover { border-bottom: 1px solid #1A1A1A; }
+        .overlay-content { display: grid; grid-template-columns: 1fr 1.5fr; gap: 60px; max-width: 1400px; margin: 0 auto; width: 100%; }
+        .overlay-content img { width: 100%; height: auto; }
+        .bio-text { display: flex; flex-direction: column; gap: 60px; }
+        .bio-block { display: flex; gap: 40px; }
+        .bio-label { min-width: 180px; font-weight: 700; flex-shrink: 0; font-size: clamp(1rem, 1.3vw, 1.3rem); }
+        .bio-desc { line-height: 1.5; font-size: clamp(1rem, 1.2vw, 1.2rem); }
+        .bio-desc p { margin-bottom: 1em; }
+        .bio-desc a { border-bottom: 1px solid #1A1A1A; }
+        .guest-list { list-style: none; padding: 0; margin-top: 10px; display: flex; flex-direction: column; gap: 5px; }
+
+        @media(max-width:768px) {
+            .info-grid, .overlay-content, .bio-block { grid-template-columns: 1fr; }
+            .bio-block { flex-direction: column; gap: 10px; }
+        }
     </style>
 </head>
 <body>
+    <div id="custom-cursor"></div>
+
     <header class="header-nav">
         <a href="index.html">LOUIS MAS</a>
         <nav>
-            <a href="index.html">INDEX</a>
+            <a href="#" id="openInfo">INFO</a>
             <a href="mailto:louismas@tuta.com">EMAIL</a>
             <a href="https://www.instagram.com/louis__mas" target="_blank">IG</a>
         </nav>
@@ -74,7 +131,99 @@
         <div>&copy; 2025 All Rights Reserved</div>
     </footer>
 
+    <!-- INFO OVERLAY -->
+    <div class="info-overlay" id="infoOverlay">
+        <div class="overlay-header">
+            <div class="header-left-group">
+                <div>INFO</div>
+                <div class="lang-switch">
+                    <span id="btn-en" class="lang-option active">EN</span>
+                    <span id="btn-fr" class="lang-option">FR</span>
+                </div>
+            </div>
+            <div class="close-btn" id="closeInfo">CLOSE [X]</div>
+        </div>
+        <div class="overlay-content">
+            <img src="assets/Louis_Mas_BTS_01.jpg" alt="Louis Mas">
+            <div class="bio-text">
+                <div class="bio-block">
+                    <div class="bio-label">BIO</div>
+                    <div class="bio-desc">
+                        <div id="bio-en">
+                            <p>Originally from Paris I worked in Amsterdam and now London where I am based. This allowed me to define my style through photography and especially the use of film.</p>
+                            <p>I had the chance to collaborate with institutions like <a href="https://www.rbo.org.uk/" target="_blank">The Royal Opera House</a>, <a href="https://avantarte.com/" target="_blank">Avant Arte</a> and <a href="https://openhouse-magazine.com/" target="_blank">Open House Magazine</a>.</p>
+                        </div>
+                        <div id="bio-fr" style="display: none;">
+                            <p>Basé à Londres j’ai eu l’occasion de travailler à Paris et Amsterdam et de définir mon style par la pratique de la photo en particulier en pellicule.</p>
+                            <p>J’ai eu la chance de collaborer avec des institutions comme <a href="https://www.rbo.org.uk/" target="_blank">The Royal Opera House</a>, <a href="https://avantarte.com/" target="_blank">Avant Arte</a> ainsi que <a href="https://openhouse-magazine.com/" target="_blank">Open House Magazine</a>.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bio-block">
+                    <div class="bio-label">
+                        <span id="guest-title-en">THE GUEST ROOM</span>
+                        <span id="guest-title-fr" style="display: none;">LA CHAMBRE D'AMIS</span>
+                    </div>
+                    <div class="bio-desc">
+                        <div id="guest-desc-en">
+                            <p>The guest room is a place to give strength and visibility to the people that helped me along the way.</p>
+                        </div>
+                        <div id="guest-desc-fr" style="display: none;">
+                            <p>La chambre d'amis est un lieu pour donner force et visibilité aux personnes qui m'ont aidé en chemin.</p>
+                        </div>
+                        <ul class="guest-list">
+                            <li><a href="https://quantrill.ltd/" target="_blank">Aimee Quantrill</a></li>
+                            <li><a href="#" target="_blank">Essentiels et accessoires</a></li>
+                            <li><a href="#" target="_blank">Ibrahim Soimadou</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // CURSOR
+        const cursor = document.getElementById('custom-cursor');
+        document.addEventListener('mousemove', e => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+        document.querySelectorAll('a, .play-btn, .close-btn, .lang-option').forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        });
+
+        // INFO OVERLAY
+        const overlay = document.getElementById('infoOverlay');
+        document.getElementById('openInfo').onclick = (e) => { e.preventDefault(); overlay.classList.add('active'); };
+        document.getElementById('closeInfo').onclick = () => overlay.classList.remove('active');
+
+        // LANGUAGE SWITCHER
+        const btnEn = document.getElementById('btn-en');
+        const btnFr = document.getElementById('btn-fr');
+        const bioEn = document.getElementById('bio-en');
+        const bioFr = document.getElementById('bio-fr');
+        const guestTitleEn = document.getElementById('guest-title-en');
+        const guestTitleFr = document.getElementById('guest-title-fr');
+        const guestDescEn = document.getElementById('guest-desc-en');
+        const guestDescFr = document.getElementById('guest-desc-fr');
+
+        btnEn.addEventListener('click', () => {
+            btnEn.classList.add('active'); btnFr.classList.remove('active');
+            bioEn.style.display = 'block'; bioFr.style.display = 'none';
+            guestTitleEn.style.display = 'inline'; guestTitleFr.style.display = 'none';
+            guestDescEn.style.display = 'block'; guestDescFr.style.display = 'none';
+        });
+
+        btnFr.addEventListener('click', () => {
+            btnFr.classList.add('active'); btnEn.classList.remove('active');
+            bioFr.style.display = 'block'; bioEn.style.display = 'none';
+            guestTitleFr.style.display = 'inline'; guestTitleEn.style.display = 'none';
+            guestDescFr.style.display = 'block'; guestDescEn.style.display = 'none';
+        });
+
+        // DATE
         setInterval(() => {
             document.getElementById('dateDisplay').textContent = new Date().toLocaleString('en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric', hour:'2-digit', minute:'2-digit', hour12:false});
         }, 1000);
