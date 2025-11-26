@@ -6,7 +6,7 @@
     <title>LOUIS MAS — SAM HARRY MACGREGOR</title>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* --- CORE STYLES FROM INDEX --- */
+        /* --- CORE STYLES --- */
         :root {
             --color-bg: #000000;
             --color-text: #EFEFEF;
@@ -18,7 +18,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; cursor: none !important; }
         html, body { min-height: 100%; }
         body {
-            background-color: #FFF; color: #000; /* White bg for project pages */
+            background-color: #FFF; color: #000;
             font-family: var(--font-main); display: flex; flex-direction: column; min-height: 100vh;
             font-size: clamp(0.9rem, 1.1vw, 1.1rem);
             overflow-x: hidden;
@@ -39,7 +39,7 @@
         body.hovering #custom-cursor::before { width: 4px; }
         body.hovering #custom-cursor::after { height: 4px; }
 
-        /* NAVIGATION - MATCHING INDEX EXACTLY */
+        /* NAVIGATION */
         .header-nav {
             position: fixed; top: 0; left: 0; width: 100%; height: var(--header-height);
             display: flex; justify-content: space-between; align-items: center;
@@ -120,7 +120,6 @@
         </nav>
     </header>
 
-    <!-- GALLERY VIEWER -->
     <div class="gallery-viewer" id="viewer">
         <img id="main-img" src="assets/Sam_Harry_Macgregor_01.jpg" alt="Gallery Image">
     </div>
@@ -146,7 +145,7 @@
         <div>&copy; 2025 All Rights Reserved</div>
     </footer>
 
-    <!-- INFO OVERLAY (Copied from Index) -->
+    <!-- INFO OVERLAY -->
     <div class="info-overlay" id="infoOverlay">
         <div class="overlay-header">
             <div class="header-left-group">
@@ -198,7 +197,6 @@
     </div>
 
     <script>
-        // CURSOR
         const cursor = document.getElementById('custom-cursor');
         document.addEventListener('mousemove', e => {
             cursor.style.left = e.clientX + 'px';
@@ -209,12 +207,10 @@
             el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
         });
 
-        // INFO OVERLAY LOGIC
         const overlay = document.getElementById('infoOverlay');
         document.getElementById('openInfo').onclick = (e) => { e.preventDefault(); overlay.classList.add('active'); };
         document.getElementById('closeInfo').onclick = () => overlay.classList.remove('active');
 
-        // LANG SWITCHER
         const btnEn = document.getElementById('btn-en');
         const btnFr = document.getElementById('btn-fr');
         const bioEn = document.getElementById('bio-en');
@@ -249,8 +245,7 @@
         const mainImg = document.getElementById('main-img');
         const thumbContainer = document.getElementById('thumb-container');
 
-        // *** FIX FOR CASE SENSITIVITY ***
-        // If image fails, try upper case extension
+        // FIX FOR IMAGE LOADING (JPG vs jpg)
         function attachErrorHandling(imgElement) {
             imgElement.onerror = function() {
                 if(this.src.endsWith('.jpg')) {
@@ -270,23 +265,20 @@
             });
         }
 
-        // Generate Thumbnails
         images.forEach((img, index) => {
             const t = document.createElement('img');
             t.src = 'assets/' + img;
             t.className = 'thumb' + (index === 0 ? ' active' : '');
             t.onclick = (e) => { e.stopPropagation(); updateGallery(index); };
-            attachErrorHandling(t); // Check thumbnails too
+            attachErrorHandling(t);
             thumbContainer.appendChild(t);
         });
 
-        // Click main viewer to advance
         document.getElementById('viewer').onclick = () => {
             let nextIndex = (currentIndex + 1) % images.length;
             updateGallery(nextIndex);
         };
 
-        // FOOTER DATE
         setInterval(() => {
             document.getElementById('dateDisplay').textContent = new Date().toLocaleString('en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric', hour:'2-digit', minute:'2-digit', hour12:false});
         }, 1000);
