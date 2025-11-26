@@ -78,7 +78,11 @@
         }
         .media-container iframe.loaded { opacity: 1; }
 
-        .media-container img { width: 100%; height: 100%; object-fit: cover; }
+        /* Updated image style for smooth fade out */
+        .media-container img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: opacity 0.8s ease-out;
+        }
 
         /* PROJECT OVERLAYS */
         .project-title {
@@ -484,6 +488,13 @@
                                     // Small delay to allow player initialization inside iframe
                                     setTimeout(() => {
                                         iframe.classList.add('loaded');
+                                        // Fix: Fade out the thumbnail image once video is ready to prevent bleed-through
+                                        const img = container.querySelector('img');
+                                        if (img) {
+                                            setTimeout(() => {
+                                                img.style.opacity = '0';
+                                            }, 500);
+                                        }
                                     }, 500);
                                 };
 
