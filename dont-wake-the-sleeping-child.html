@@ -95,6 +95,11 @@
         @media(max-width:768px) {
             .info-grid, .overlay-content, .bio-block { grid-template-columns: 1fr; }
             .bio-block { flex-direction: column; gap: 10px; }
+
+            /* MOBILE FOOTER FIXES */
+            .info-grid { border-bottom: none; } /* Removes double line effect */
+            .footer { border-top: 1px solid #DDD; justify-content: center; } /* Ensures single clean line */
+            #dateDisplay { display: none; } /* Hides date */
         }
     </style>
 </head>
