@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Added CSP to resolve 'eval' blocking error -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https:; img-src 'self' data:;">
+    <!-- Updated CSP with explicit script-src and looser img-src to prevent blocking -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' https: data:;">
     <title>LOUIS MAS — SAM HARRY MACGREGOR</title>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -247,6 +247,18 @@
         const mainImg = document.getElementById('main-img');
         const thumbContainer = document.getElementById('thumb-container');
 
+        // FIX FOR IMAGE LOADING (JPG vs jpg)
+        function attachErrorHandling(imgElement) {
+            imgElement.onerror = function() {
+                if(this.src.endsWith('.jpg')) {
+                    this.src = this.src.replace('.jpg', '.JPG');
+                } else if(this.src.endsWith('.JPG')) {
+                    this.src = this.src.replace('.JPG', '.jpeg');
+                }
+            };
+        }
+        attachErrorHandling(mainImg);
+
         function updateGallery(index) {
             currentIndex = index;
             mainImg.src = 'assets/' + images[currentIndex];
@@ -260,6 +272,7 @@
             t.src = 'assets/' + img;
             t.className = 'thumb' + (index === 0 ? ' active' : '');
             t.onclick = (e) => { e.stopPropagation(); updateGallery(index); };
+            attachErrorHandling(t);
             thumbContainer.appendChild(t);
         });
 
