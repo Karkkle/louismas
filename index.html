@@ -12,7 +12,9 @@
     <link rel="preconnect" href="https://f.vimeocdn.com">
 
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://player.vimeo.com/api/player.js"></script>
+
+    <!-- SPEED OPTIMIZATION: Defer blocking script -->
+    <script src="https://player.vimeo.com/api/player.js" defer></script>
 
     <style>
         :root {
@@ -68,7 +70,13 @@
             display: block; position: relative; width: 100%;
             aspect-ratio: 16 / 9;
             overflow: hidden; border-bottom: 1px solid var(--color-accent);
+            /* PERFORMANCE: Skip rendering off-screen content */
+            content-visibility: auto;
+            contain-intrinsic-size: 16/9;
         }
+        /* Ensure the first block is always rendered */
+        .project-block:first-of-type { content-visibility: visible; }
+
         .media-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #111; }
 
         /* UX OPTIMIZATION: Smooth fade-in for iframes */
@@ -118,6 +126,7 @@
             background-color: #F5F5F5; color: #1A1A1A;
             display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
             padding: 60px var(--spacing); border-bottom: 1px solid #1A1A1A;
+            content-visibility: auto; /* Optimize info section too */
         }
         .info-col h3 {
             font-weight: 700; margin-bottom: 20px;
@@ -233,7 +242,7 @@
 
     <a href="dont-wake-the-sleeping-child.html" class="project-block" id="dont-wake">
         <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/1139713842?h=f32f84e024&autoplay=1&loop=1&title=0&byline=0&portrait=0&background=1&muted=1">
-            <img src="assets/dont_wake_the_sleeping_child_thumbnail.jpg" alt="Don't Wake The Sleeping Child">
+            <img src="assets/dont_wake_the_sleeping_child_thumbnail.jpg" alt="Don't Wake The Sleeping Child" loading="lazy">
         </div>
         <div class="project-title">
             <h2>DON'T WAKE THE SLEEPING CHILD</h2>
@@ -244,7 +253,7 @@
 
     <a href="sam-harry-macgregor.html" class="project-block" id="sam-harry">
         <div class="media-container">
-            <img src="assets/sam_harry_macgregor_04.jpg" alt="Sam Harry Macgregor">
+            <img src="assets/sam_harry_macgregor_04.jpg" alt="Sam Harry Macgregor" loading="lazy">
         </div>
         <div class="project-title">
             <h2>SAM HARRY MACGREGOR</h2>
@@ -255,7 +264,7 @@
 
     <a href="open-house-magazine.html" class="project-block" id="open-house">
         <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/827998796?h=f501235385&autoplay=1&loop=1&background=1&muted=1">
-            <img src="assets/open_house_thumbnail.jpg" alt="Open House Magazine">
+            <img src="assets/open_house_thumbnail.jpg" alt="Open House Magazine" loading="lazy">
         </div>
         <div class="project-title">
             <h2>OPEN HOUSE MAGAZINE</h2>
@@ -266,7 +275,7 @@
 
     <a href="avant-arte-david-rudnick.html" class="project-block" id="avant-arte">
         <div class="media-container">
-            <img src="assets/avant_arte_david_rudnick_01.jpg" alt="Avant Arte">
+            <img src="assets/avant_arte_david_rudnick_01.jpg" alt="Avant Arte" loading="lazy">
         </div>
         <div class="project-title">
             <h2>AVANT ARTE + DAVID RUDNICK</h2>
@@ -277,7 +286,7 @@
 
     <a href="sometimes-manast-ll.html" class="project-block" id="sometimes">
         <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/365320979?autoplay=1&loop=1&background=1&muted=1">
-            <img src="assets/sometimes_thumbnail.jpg" alt="Sometimes">
+            <img src="assets/sometimes_thumbnail.jpg" alt="Sometimes" loading="lazy">
         </div>
         <div class="project-title">
             <h2>SOMETIMES</h2>
@@ -288,7 +297,7 @@
 
     <a href="beaugan.html" class="project-block" id="beaugan">
         <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/350279655?h=683fb71a10&autoplay=1&loop=1&background=1&muted=1">
-            <img src="assets/beaugan_thumbnail.jpg" alt="Beaugan">
+            <img src="assets/beaugan_thumbnail.jpg" alt="Beaugan" loading="lazy">
         </div>
         <div class="project-title">
             <h2>BEAUGAN</h2>
@@ -299,7 +308,7 @@
 
     <a href="marguo-gallery.html" class="project-block" id="marguo">
         <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/695813702?autoplay=1&loop=1&background=1&muted=1">
-            <img src="assets/marguo_thumbnail.jpg" alt="Marguo Gallery">
+            <img src="assets/marguo_thumbnail.jpg" alt="Marguo Gallery" loading="lazy">
         </div>
         <div class="project-title">
             <h2>MARGUO GALLERY</h2>
@@ -310,7 +319,7 @@
 
     <a href="all-star-manast-ll.html" class="project-block" id="all-star">
         <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/400239998?autoplay=1&loop=1&background=1&muted=1">
-            <img src="assets/all_star_thumbnail.jpg" alt="All Star">
+            <img src="assets/all_star_thumbnail.jpg" alt="All Star" loading="lazy">
         </div>
         <div class="project-title">
             <h2>ALL STAR</h2>
@@ -485,7 +494,7 @@
 
                                 // Fade in on load
                                 iframe.onload = function() {
-                                    // Small delay to allow player initialization inside iframe
+                                    // Reduced delay for snappier feel (200ms vs 500ms)
                                     setTimeout(() => {
                                         iframe.classList.add('loaded');
                                         // Fix: Fade out the thumbnail image once video is ready to prevent bleed-through
@@ -493,9 +502,9 @@
                                         if (img) {
                                             setTimeout(() => {
                                                 img.style.opacity = '0';
-                                            }, 500);
+                                            }, 200);
                                         }
-                                    }, 500);
+                                    }, 200);
                                 };
 
                                 container.appendChild(iframe);
