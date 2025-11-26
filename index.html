@@ -27,7 +27,6 @@
             font-family: var(--font-main);
             line-height: 1.2;
             overflow-x: hidden;
-            /* Fluid body text size */
             font-size: clamp(0.9rem, 1.1vw, 1.1rem);
         }
         a { color: inherit; text-decoration: none; }
@@ -44,11 +43,10 @@
         }
         #custom-cursor::before { width: 2px; height: 100%; }
         #custom-cursor::after { width: 100%; height: 2px; }
-        /* Cursor Hover State */
         body.hovering #custom-cursor::before { width: 4px; }
         body.hovering #custom-cursor::after { height: 4px; }
 
-        /* NAVIGATION - FLUID TYPE */
+        /* NAVIGATION */
         .header-nav {
             position: fixed; top: 0; left: 0; width: 100%; height: var(--header-height);
             display: flex; justify-content: space-between; align-items: center;
@@ -69,7 +67,7 @@
         .media-container iframe { width: 100%; height: 100%; border: 0; pointer-events: none; position: absolute; top:0; left:0; }
         .media-container img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* PROJECT OVERLAYS - FLUID TYPE */
+        /* PROJECT OVERLAYS */
         .project-title {
             position: absolute; top: var(--spacing); left: var(--spacing); z-index: 10; pointer-events: none;
         }
@@ -98,7 +96,7 @@
         .audio-toggle.sound-on .icon-unmute { display: none; }
         .audio-toggle.sound-on .icon-mute { display: block; }
 
-        /* INFO SECTION - FLUID TYPE */
+        /* INFO SECTION */
         .info-section {
             background-color: #F5F5F5; color: #1A1A1A;
             display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
@@ -114,14 +112,14 @@
         }
         .info-col a:hover { background: #1A1A1A; color: #F5F5F5; }
 
-        /* FOOTER - FLUID TYPE */
+        /* FOOTER */
         .footer {
             background: #F5F5F5; color: #1A1A1A; padding: var(--spacing);
             font-size: clamp(0.7rem, 0.9vw, 0.9rem);
             display: flex; justify-content: space-between; align-items: center; height: var(--header-height);
         }
 
-        /* INFO OVERLAY (Hidden by default) */
+        /* INFO OVERLAY */
         .info-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #F5F5F5; color: #1A1A1A; z-index: 2000; padding: var(--spacing);
@@ -130,31 +128,21 @@
         .info-overlay.active { display: flex; }
 
         .overlay-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; font-weight: 700; font-size: clamp(0.9rem, 1.2vw, 1.2rem); }
-
         .header-left-group { display: flex; align-items: center; gap: 20px; }
-
         .lang-switch { display: flex; gap: 10px; user-select: none; }
         .lang-option { opacity: 0.4; transition: opacity 0.2s; cursor: none; }
         .lang-option:hover, .lang-option.active { opacity: 1; text-decoration: underline; }
-
         .close-btn { cursor: none; border-bottom: 1px solid transparent; }
         .close-btn:hover { border-bottom: 1px solid #1A1A1A; }
-
         .overlay-content { display: grid; grid-template-columns: 1fr 1.5fr; gap: 60px; max-width: 1400px; margin: 0 auto; width: 100%; }
+        .overlay-content img { width: 100%; height: auto; }
         .bio-text { display: flex; flex-direction: column; gap: 60px; }
         .bio-block { display: flex; gap: 40px; }
-        .bio-label {
-            min-width: 180px; font-weight: 700; flex-shrink: 0;
-            font-size: clamp(1rem, 1.3vw, 1.3rem);
-        }
-        .bio-desc {
-            line-height: 1.5;
-            font-size: clamp(1rem, 1.2vw, 1.2rem);
-        }
+        .bio-label { min-width: 180px; font-weight: 700; flex-shrink: 0; font-size: clamp(1rem, 1.3vw, 1.3rem); }
+        .bio-desc { line-height: 1.5; font-size: clamp(1rem, 1.2vw, 1.2rem); }
         .bio-desc p { margin-bottom: 1em; }
         .bio-desc a { border-bottom: 1px solid #1A1A1A; }
         .bio-desc a:hover { background: #1A1A1A; color: #F5F5F5; }
-
         .guest-list { list-style: none; padding: 0; margin-top: 10px; display: flex; flex-direction: column; gap: 5px; }
 
         /* HOVER PREVIEW */
@@ -166,7 +154,7 @@
         @media (max-width: 768px) {
             .info-section, .overlay-content, .bio-block { grid-template-columns: 1fr; gap: 30px; }
             .bio-block { flex-direction: column; gap: 10px; }
-            .project-title h2 { font-size: clamp(3rem, 7vw, 7.5rem); } /* Kept clamp but adjusted logic slightly for mobile if needed */
+            .project-title h2 { font-size: clamp(3rem, 7vw, 7.5rem); }
             .header-nav { font-size: 0.9rem; }
             #hover-preview { display: none !important; }
         }
@@ -184,7 +172,7 @@
         </nav>
     </header>
 
-    <!-- PROJECT 1 (Header Video) - Loads immediately (HERO) -->
+    <!-- HEADER VIDEO (Loads immediately) -->
     <div class="project-block" id="project-one">
         <div class="media-container">
             <iframe src="https://player.vimeo.com/video/1020150270?h=e97ca1bfd4&autoplay=1&loop=1&title=0&byline=0&portrait=0&background=1&muted=1" allow="autoplay; fullscreen" allowfullscreen></iframe>
@@ -195,7 +183,7 @@
         </div>
     </div>
 
-    <!-- INFO SECTION / LINKS -->
+    <!-- INFO SECTION -->
     <section class="info-section">
         <div class="info-col">
             <h3>CONTACT</h3>
@@ -216,9 +204,8 @@
         </div>
     </section>
 
-    <!-- PROJECT BLOCKS -->
+    <!-- PROJECT BLOCKS (Smart Lazy Loading) -->
 
-    <!-- 1. DONT WAKE -->
     <a href="dont-wake-the-sleeping-child.html" class="project-block" id="dont-wake">
         <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/1139713842?h=f32f84e024&autoplay=1&loop=1&title=0&byline=0&portrait=0&background=1&muted=1">
             <img src="assets/Dont_wake_the_sleeping_child_thumbnail.jpg" alt="Don't Wake The Sleeping Child">
@@ -230,7 +217,6 @@
         <div class="cta-label">WATCH FILM ></div>
     </a>
 
-    <!-- 2. SAM HARRY (Image Only) -->
     <a href="sam-harry-macgregor.html" class="project-block" id="sam-harry">
         <div class="media-container">
             <img src="assets/Sam_Harry_Macgregor_04.jpg" alt="Sam Harry Macgregor">
@@ -242,7 +228,6 @@
         <div class="cta-label">VIEW PROJECT ></div>
     </a>
 
-    <!-- 3. OPEN HOUSE -->
     <a href="open-house-magazine.html" class="project-block" id="open-house">
         <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/827998796?h=f501235385&autoplay=1&loop=1&background=1&muted=1">
             <img src="assets/Open_House_Thumbnail.jpg" alt="Open House Magazine">
@@ -254,7 +239,6 @@
         <div class="cta-label">WATCH FILM ></div>
     </a>
 
-    <!-- 4. AVANT ARTE (Image Only) -->
     <a href="avant-arte-david-rudnick.html" class="project-block" id="avant-arte">
         <div class="media-container">
             <img src="assets/Avant-arte_david_rudnick_01.jpg" alt="Avant Arte">
@@ -266,7 +250,6 @@
         <div class="cta-label">VIEW PROJECT ></div>
     </a>
 
-    <!-- 5. SOMETIMES -->
     <a href="sometimes-manast-ll.html" class="project-block" id="sometimes">
         <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/365320979?autoplay=1&loop=1&background=1&muted=1">
             <img src="assets/Sometimes_thumbnail.jpg" alt="Sometimes">
@@ -278,7 +261,6 @@
         <div class="cta-label">WATCH FILM ></div>
     </a>
 
-    <!-- 6. BEAUGAN -->
     <a href="beaugan.html" class="project-block" id="beaugan">
         <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/350279655?h=683fb71a10&autoplay=1&loop=1&background=1&muted=1">
             <img src="assets/Beaugan_thumbnail.jpg" alt="Beaugan">
@@ -290,7 +272,6 @@
         <div class="cta-label">WATCH FILM ></div>
     </a>
 
-    <!-- 7. MARGUO -->
     <a href="marguo-gallery.html" class="project-block" id="marguo">
         <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/695813702?autoplay=1&loop=1&background=1&muted=1">
             <img src="assets/Marguo_thumbnail.jpg" alt="Marguo Gallery">
@@ -302,7 +283,6 @@
         <div class="cta-label">WATCH FILM ></div>
     </a>
 
-    <!-- 8. ALL STAR -->
     <a href="all-star-manast-ll.html" class="project-block" id="all-star">
         <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/400239998?autoplay=1&loop=1&background=1&muted=1">
             <img src="assets/All_star_thumbnail.jpg" alt="All Star">
@@ -449,7 +429,7 @@
             });
         });
 
-        // SMART LAZY LOADING (VIDEO SWAP)
+        // SMART LAZY LOADING (Mobile Speed Fix)
         document.addEventListener("DOMContentLoaded", function() {
             const lazyVideos = document.querySelectorAll('.lazy-video-container');
 
@@ -459,15 +439,14 @@
                         if (entry.isIntersecting) {
                             const container = entry.target;
                             const videoSrc = container.dataset.vimeo;
-                            // Only create iframe if it doesn't exist yet
+                            // Only create iframe if it doesn't exist
                             if (videoSrc && !container.querySelector('iframe')) {
                                 container.innerHTML = `<iframe src="${videoSrc}" allow="autoplay; fullscreen" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"></iframe>`;
                             }
-                            // Stop observing once loaded to keep it there
                             observer.unobserve(container);
                         }
                     });
-                }, { rootMargin: "200px" }); // Preload when it is 200px away from view
+                }, { rootMargin: "200px" });
 
                 lazyVideos.forEach(function(video) {
                     videoObserver.observe(video);
