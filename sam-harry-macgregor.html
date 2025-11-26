@@ -121,7 +121,7 @@
     </header>
 
     <div class="gallery-viewer" id="viewer">
-        <img id="main-img" src="assets/Sam_Harry_Macgregor_01.jpg" alt="Gallery Image">
+        <img id="main-img" src="assets/sam_harry_macgregor_01.jpg" alt="Gallery Image">
     </div>
 
     <!-- THUMBNAILS -->
@@ -158,7 +158,7 @@
             <div class="close-btn" id="closeInfo">CLOSE [X]</div>
         </div>
         <div class="overlay-content">
-            <img src="assets/Louis_Mas_BTS_01.jpg" alt="Louis Mas">
+            <img src="assets/louis_mas_bts_01.jpg" alt="Louis Mas">
             <div class="bio-text">
                 <div class="bio-block">
                     <div class="bio-label">BIO</div>
@@ -236,26 +236,14 @@
 
         // GALLERY LOGIC
         const images = [
-            'Sam_Harry_Macgregor_01.jpg',
-            'Sam_Harry_Macgregor_02.jpg',
-            'Sam_Harry_Macgregor_03.jpg',
-            'Sam_Harry_Macgregor_04.jpg'
+            'sam_harry_macgregor_01.jpg',
+            'sam_harry_macgregor_02.jpg',
+            'sam_harry_macgregor_03.jpg',
+            'sam_harry_macgregor_04.jpg'
         ];
         let currentIndex = 0;
         const mainImg = document.getElementById('main-img');
         const thumbContainer = document.getElementById('thumb-container');
-
-        // FIX FOR IMAGE LOADING (JPG vs jpg)
-        function attachErrorHandling(imgElement) {
-            imgElement.onerror = function() {
-                if(this.src.endsWith('.jpg')) {
-                    this.src = this.src.replace('.jpg', '.JPG');
-                } else if(this.src.endsWith('.JPG')) {
-                    this.src = this.src.replace('.JPG', '.jpeg');
-                }
-            };
-        }
-        attachErrorHandling(mainImg);
 
         function updateGallery(index) {
             currentIndex = index;
@@ -270,7 +258,6 @@
             t.src = 'assets/' + img;
             t.className = 'thumb' + (index === 0 ? ' active' : '');
             t.onclick = (e) => { e.stopPropagation(); updateGallery(index); };
-            attachErrorHandling(t);
             thumbContainer.appendChild(t);
         });
 

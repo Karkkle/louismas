@@ -121,7 +121,7 @@
     </header>
 
     <div class="gallery-viewer" id="viewer">
-        <img id="main-img" src="assets/Avant-arte_david_rudnick_01.jpg" alt="Gallery">
+        <img id="main-img" src="assets/avant_arte_david_rudnick_01.jpg" alt="Gallery">
     </div>
 
     <!-- THUMBNAILS -->
@@ -153,7 +153,7 @@
             <div class="close-btn" id="closeInfo">CLOSE [X]</div>
         </div>
         <div class="overlay-content">
-            <img src="assets/Louis_Mas_BTS_01.jpg" alt="Louis Mas">
+            <img src="assets/louis_mas_bts_01.jpg" alt="Louis Mas">
             <div class="bio-text">
                 <div class="bio-block">
                     <div class="bio-label">BIO</div>
@@ -231,29 +231,15 @@
 
         // GALLERY LOGIC
         const images = [];
-        const skipList = [4, 5, 7, 13];
-
-        for(let i=1; i<=13; i++) {
-            if (skipList.includes(i)) continue; // Skip these numbers
+        // Generating list from 01 to 10 as per new asset list
+        for(let i=1; i<=10; i++) {
             let num = i < 10 ? '0'+i : i;
-            images.push(`Avant-arte_david_rudnick_${num}.jpg`);
+            images.push(`avant_arte_david_rudnick_${num}.jpg`);
         }
 
         let currentIndex = 0;
         const mainImg = document.getElementById('main-img');
         const thumbContainer = document.getElementById('thumb-container');
-
-        // FIX FOR IMAGE LOADING
-        function attachErrorHandling(imgElement) {
-            imgElement.onerror = function() {
-                if(this.src.endsWith('.jpg')) {
-                    this.src = this.src.replace('.jpg', '.JPG');
-                } else if(this.src.endsWith('.JPG')) {
-                    this.src = this.src.replace('.JPG', '.jpeg');
-                }
-            };
-        }
-        attachErrorHandling(mainImg);
 
         function updateGallery(index) {
             currentIndex = index;
@@ -268,7 +254,6 @@
             t.src = 'assets/' + img;
             t.className = 'thumb' + (index === 0 ? ' active' : '');
             t.onclick = (e) => { e.stopPropagation(); updateGallery(index); };
-            attachErrorHandling(t);
             thumbContainer.appendChild(t);
         });
 
