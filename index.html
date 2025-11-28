@@ -6,11 +6,15 @@
     <meta name="description" content="Louis Mas — Portfolio. Director and Photographer based in London.">
     <title>LOUIS MAS — WORK</title>
 
-    <link rel="preconnect" href="https://player.mediadelivery.net">
-
-    <link rel="preload" href="https://player.mediadelivery.net/embed/551229/a8f9e39b-6ed2-4f8f-98a3-afd1a6007b00?autoplay=true&loop=true&muted=true&playsinline=true&controls=false" as="document">
+    <!-- SPEED OPTIMIZATION: Preconnect to Vimeo servers -->
+    <link rel="preconnect" href="https://player.vimeo.com">
+    <link rel="preconnect" href="https://i.vimeocdn.com">
+    <link rel="preconnect" href="https://f.vimeocdn.com">
 
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- SPEED OPTIMIZATION: Defer blocking script -->
+    <script src="https://player.vimeo.com/api/player.js" defer></script>
 
     <style>
         :root {
@@ -73,20 +77,14 @@
         /* Ensure the first block is always rendered */
         .project-block:first-of-type { content-visibility: visible; }
 
-        .media-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000; }
+        .media-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #111; }
 
-        /* UX OPTIMIZATION: Smooth fade-in for SUBSEQUENT iframes only */
-        .project-block:not(#project-one) .media-container iframe {
+        /* UX OPTIMIZATION: Smooth fade-in for iframes */
+        .media-container iframe {
             width: 100%; height: 100%; border: 0; pointer-events: none; position: absolute; top:0; left:0;
             opacity: 0; transition: opacity 1s ease-in-out;
         }
-        .project-block:not(#project-one) .media-container iframe.loaded { opacity: 1; }
-
-        /* HERO VIDEO SPECIAL STYLES: Show Immediately, No Fade */
-        #project-one .media-container iframe {
-            width: 100%; height: 100%; border: 0; pointer-events: none; position: absolute; top:0; left:0;
-            opacity: 1; /* Force visible immediately */
-        }
+        .media-container iframe.loaded { opacity: 1; }
 
         /* Updated image style for smooth fade out */
         .media-container img {
@@ -111,6 +109,17 @@
             font-weight: 700; text-shadow: 0 0 10px rgba(0,0,0,0.5);
             font-size: clamp(0.9rem, 1.1vw, 1.1rem);
         }
+
+        /* AUDIO TOGGLE */
+        .audio-toggle {
+            position: absolute; bottom: var(--spacing); left: var(--spacing); z-index: 20;
+            width: 30px; height: 30px; opacity: 0.7; mix-blend-mode: difference;
+        }
+        .audio-toggle:hover { opacity: 1; }
+        .audio-toggle svg { width: 100%; height: 100%; fill: #FFF; }
+        .icon-mute { display: none; }
+        .audio-toggle.sound-on .icon-unmute { display: none; }
+        .audio-toggle.sound-on .icon-mute { display: block; }
 
         /* INFO SECTION */
         .info-section {
@@ -197,18 +206,18 @@
         </nav>
     </header>
 
+    <!-- HEADER VIDEO (Loads immediately, fades in) -->
     <div class="project-block" id="project-one">
         <div class="media-container">
-            <iframe
-                src="https://player.mediadelivery.net/embed/551229/a8f9e39b-6ed2-4f8f-98a3-afd1a6007b00?autoplay=true&loop=true&muted=true&playsinline=true&controls=false"
-                loading="eager"
-                fetchpriority="high"
-                allow="autoplay; fullscreen"
-                allowfullscreen>
-            </iframe>
+            <iframe src="https://player.vimeo.com/video/1020150270?h=e97ca1bfd4&autoplay=1&loop=1&title=0&byline=0&portrait=0&background=1&muted=1" allow="autoplay; fullscreen" allowfullscreen onload="this.classList.add('loaded')"></iframe>
+        </div>
+        <div class="audio-toggle">
+            <svg class="icon-unmute" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73 4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+            <svg class="icon-mute" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
         </div>
     </div>
 
+    <!-- INFO SECTION -->
     <section class="info-section">
         <div class="info-col">
             <h3>CONTACT</h3>
@@ -229,8 +238,10 @@
         </div>
     </section>
 
+    <!-- PROJECT BLOCKS (Smart Lazy Loading + Fade In) -->
+
     <a href="dont-wake-the-sleeping-child.html" class="project-block" id="dont-wake">
-        <div class="media-container lazy-video-container" data-video="https://player.mediadelivery.net/embed/551229/bfacb1a4-91fc-4743-94fa-dbfed1ed834f?autoplay=true&loop=true&muted=true&playsinline=true&controls=false">
+        <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/1139713842?h=f32f84e024&autoplay=1&loop=1&title=0&byline=0&portrait=0&background=1&muted=1">
             <img src="assets/dont_wake_the_sleeping_child_thumbnail.jpg" alt="Don't Wake The Sleeping Child" loading="lazy">
         </div>
         <div class="project-title">
@@ -252,7 +263,7 @@
     </a>
 
     <a href="open-house-magazine.html" class="project-block" id="open-house">
-        <div class="media-container lazy-video-container" data-video="https://player.mediadelivery.net/embed/551229/ab6ae832-debe-4c75-bdff-30494c8770cc?autoplay=true&loop=true&muted=true&playsinline=true&controls=false">
+        <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/827998796?h=f501235385&autoplay=1&loop=1&background=1&muted=1">
             <img src="assets/open_house_thumbnail.jpg" alt="Open House Magazine" loading="lazy">
         </div>
         <div class="project-title">
@@ -274,7 +285,7 @@
     </a>
 
     <a href="sometimes-manast-ll.html" class="project-block" id="sometimes">
-        <div class="media-container lazy-video-container" data-video="https://player.mediadelivery.net/embed/551229/4d44f912-8d72-4889-b07e-061c6b52ff1a?autoplay=true&loop=true&muted=true&playsinline=true&controls=false">
+        <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/365320979?autoplay=1&loop=1&background=1&muted=1">
             <img src="assets/sometimes_thumbnail.jpg" alt="Sometimes" loading="lazy">
         </div>
         <div class="project-title">
@@ -285,7 +296,7 @@
     </a>
 
     <a href="beaugan.html" class="project-block" id="beaugan">
-        <div class="media-container lazy-video-container" data-video="https://player.mediadelivery.net/embed/551229/79a40d60-974f-4ae1-bb22-f2309432ecf1?autoplay=true&loop=true&muted=true&playsinline=true&controls=false">
+        <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/350279655?h=683fb71a10&autoplay=1&loop=1&background=1&muted=1">
             <img src="assets/beaugan_thumbnail.jpg" alt="Beaugan" loading="lazy">
         </div>
         <div class="project-title">
@@ -296,7 +307,7 @@
     </a>
 
     <a href="marguo-gallery.html" class="project-block" id="marguo">
-        <div class="media-container lazy-video-container" data-video="https://player.mediadelivery.net/embed/551229/f4b15004-de6f-405f-b338-2dc44d200935?autoplay=true&loop=true&muted=true&playsinline=true&controls=false">
+        <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/695813702?autoplay=1&loop=1&background=1&muted=1">
             <img src="assets/marguo_thumbnail.jpg" alt="Marguo Gallery" loading="lazy">
         </div>
         <div class="project-title">
@@ -307,7 +318,7 @@
     </a>
 
     <a href="all-star-manast-ll.html" class="project-block" id="all-star">
-        <div class="media-container lazy-video-container" data-video="https://player.mediadelivery.net/embed/551229/5d61d0b6-3af8-499b-a761-f7bfb2310faf?autoplay=true&loop=true&muted=true&playsinline=true&controls=false">
+        <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/400239998?autoplay=1&loop=1&background=1&muted=1">
             <img src="assets/all_star_thumbnail.jpg" alt="All Star" loading="lazy">
         </div>
         <div class="project-title">
@@ -322,6 +333,7 @@
         <div>&copy; 2025 All Rights Reserved</div>
     </footer>
 
+    <!-- INFO OVERLAY -->
     <div class="info-overlay" id="infoOverlay">
         <div class="overlay-header">
             <div class="header-left-group">
@@ -438,6 +450,22 @@
             document.getElementById('dateDisplay').textContent = new Date().toLocaleString('en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric', hour:'2-digit', minute:'2-digit', hour12:false});
         }, 1000);
 
+        // AUDIO TOGGLES
+        document.querySelectorAll('.audio-toggle').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault(); e.stopPropagation();
+                const iframe = btn.closest('.project-block').querySelector('iframe');
+                if (iframe) {
+                    const player = new Vimeo.Player(iframe);
+                    player.getVolume().then(v => {
+                        const newVol = v === 0 ? 1 : 0;
+                        player.setVolume(newVol);
+                        btn.classList.toggle('sound-on', newVol === 1);
+                    });
+                }
+            });
+        });
+
         // SMART LAZY LOADING (Mobile Speed Fix) WITH SMOOTH FADE IN
         document.addEventListener("DOMContentLoaded", function() {
             const lazyVideos = document.querySelectorAll('.lazy-video-container');
@@ -447,7 +475,7 @@
                     entries.forEach(function(entry) {
                         if (entry.isIntersecting) {
                             const container = entry.target;
-                            const videoSrc = container.dataset.video;
+                            const videoSrc = container.dataset.vimeo;
 
                             // Only create iframe if it doesn't exist
                             if (videoSrc && !container.querySelector('iframe')) {
