@@ -6,15 +6,7 @@
     <meta name="description" content="Louis Mas — Portfolio. Director and Photographer based in London.">
     <title>LOUIS MAS — WORK</title>
 
-    <!-- SPEED OPTIMIZATION: Preconnect to Vimeo servers -->
-    <link rel="preconnect" href="https://player.vimeo.com">
-    <link rel="preconnect" href="https://i.vimeocdn.com">
-    <link rel="preconnect" href="https://f.vimeocdn.com">
-
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
-
-    <!-- SPEED OPTIMIZATION: Defer blocking script -->
-    <script src="https://player.vimeo.com/api/player.js" defer></script>
 
     <style>
         :root {
@@ -38,7 +30,7 @@
             font-size: clamp(0.9rem, 1.1vw, 1.1rem);
         }
         a { color: inherit; text-decoration: none; }
-        img { display: block; max-width: 100%; }
+        img, video { display: block; max-width: 100%; }
 
         /* CUSTOM CURSOR */
         #custom-cursor {
@@ -70,27 +62,25 @@
             display: block; position: relative; width: 100%;
             aspect-ratio: 16 / 9;
             overflow: hidden; border-bottom: 1px solid var(--color-accent);
-            /* PERFORMANCE: Skip rendering off-screen content */
-            content-visibility: auto;
-            contain-intrinsic-size: 16/9;
         }
-        /* Ensure the first block is always rendered */
-        .project-block:first-of-type { content-visibility: visible; }
 
-        .media-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #111; }
-
-        /* UX OPTIMIZATION: Smooth fade-in for iframes */
-        .media-container iframe {
-            width: 100%; height: 100%; border: 0; pointer-events: none; position: absolute; top:0; left:0;
-            opacity: 0; transition: opacity 1s ease-in-out;
+        /* MEDIA CONTAINER */
+        .media-container {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
         }
-        .media-container iframe.loaded { opacity: 1; }
 
-        /* Updated image style for smooth fade out */
-        .media-container img {
-            width: 100%; height: 100%; object-fit: cover;
-            transition: opacity 0.8s ease-out;
+        /* NATIVE VIDEO STYLING - THE FIX */
+        .media-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures video fills box perfectly */
+            pointer-events: none; /* Prevents context menu / clicking */
+            display: block;
         }
+
+        /* Standard Images */
+        .media-container img { width: 100%; height: 100%; object-fit: cover; }
 
         /* PROJECT OVERLAYS */
         .project-title {
@@ -110,23 +100,11 @@
             font-size: clamp(0.9rem, 1.1vw, 1.1rem);
         }
 
-        /* AUDIO TOGGLE */
-        .audio-toggle {
-            position: absolute; bottom: var(--spacing); left: var(--spacing); z-index: 20;
-            width: 30px; height: 30px; opacity: 0.7; mix-blend-mode: difference;
-        }
-        .audio-toggle:hover { opacity: 1; }
-        .audio-toggle svg { width: 100%; height: 100%; fill: #FFF; }
-        .icon-mute { display: none; }
-        .audio-toggle.sound-on .icon-unmute { display: none; }
-        .audio-toggle.sound-on .icon-mute { display: block; }
-
         /* INFO SECTION */
         .info-section {
             background-color: #F5F5F5; color: #1A1A1A;
             display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
             padding: 60px var(--spacing); border-bottom: 1px solid #1A1A1A;
-            content-visibility: auto; /* Optimize info section too */
         }
         .info-col h3 {
             font-weight: 700; margin-bottom: 20px;
@@ -180,15 +158,10 @@
         @media (max-width: 768px) {
             .info-section, .overlay-content, .bio-block { grid-template-columns: 1fr; gap: 30px; }
             .bio-block { flex-direction: column; gap: 10px; }
-
-            /* UPDATED: Significantly smaller titles on mobile */
             .project-title h2 { font-size: clamp(1.5rem, 5vw, 3rem); }
             .project-subtitle { font-size: 0.8rem; }
-
             .header-nav { font-size: 0.9rem; }
             #hover-preview { display: none !important; }
-
-            /* MOBILE FOOTER FIXES */
             .footer { justify-content: center; }
             #dateDisplay { display: none; }
         }
@@ -206,18 +179,19 @@
         </nav>
     </header>
 
-    <!-- HEADER VIDEO (Loads immediately, fades in) -->
     <div class="project-block" id="project-one">
         <div class="media-container">
-            <iframe src="https://player.vimeo.com/video/1020150270?h=e97ca1bfd4&autoplay=1&loop=1&title=0&byline=0&portrait=0&background=1&muted=1" allow="autoplay; fullscreen" allowfullscreen onload="this.classList.add('loaded')"></iframe>
-        </div>
-        <div class="audio-toggle">
-            <svg class="icon-unmute" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73 4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
-            <svg class="icon-mute" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+            <video
+                src="https://vz-53e219b8-7f7.b-cdn.net/d70f85c8-a9ff-4ac2-945b-ab6a696d05a8/play_720p.mp4"
+                autoplay
+                muted
+                loop
+                playsinline
+                disablepictureinpicture>
+            </video>
         </div>
     </div>
 
-    <!-- INFO SECTION -->
     <section class="info-section">
         <div class="info-col">
             <h3>CONTACT</h3>
@@ -238,11 +212,9 @@
         </div>
     </section>
 
-    <!-- PROJECT BLOCKS (Smart Lazy Loading + Fade In) -->
-
     <a href="dont-wake-the-sleeping-child.html" class="project-block" id="dont-wake">
-        <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/1139713842?h=f32f84e024&autoplay=1&loop=1&title=0&byline=0&portrait=0&background=1&muted=1">
-            <img src="assets/dont_wake_the_sleeping_child_thumbnail.jpg" alt="Don't Wake The Sleeping Child" loading="lazy">
+        <div class="media-container">
+            <video src="PASTE_YOUR_MP4_LINK_HERE" autoplay muted loop playsinline loading="lazy"></video>
         </div>
         <div class="project-title">
             <h2>DON'T WAKE THE SLEEPING CHILD</h2>
@@ -263,8 +235,8 @@
     </a>
 
     <a href="open-house-magazine.html" class="project-block" id="open-house">
-        <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/827998796?h=f501235385&autoplay=1&loop=1&background=1&muted=1">
-            <img src="assets/open_house_thumbnail.jpg" alt="Open House Magazine" loading="lazy">
+        <div class="media-container">
+            <video src="PASTE_YOUR_MP4_LINK_HERE" autoplay muted loop playsinline loading="lazy"></video>
         </div>
         <div class="project-title">
             <h2>OPEN HOUSE MAGAZINE</h2>
@@ -285,8 +257,8 @@
     </a>
 
     <a href="sometimes-manast-ll.html" class="project-block" id="sometimes">
-        <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/365320979?autoplay=1&loop=1&background=1&muted=1">
-            <img src="assets/sometimes_thumbnail.jpg" alt="Sometimes" loading="lazy">
+        <div class="media-container">
+            <video src="PASTE_YOUR_MP4_LINK_HERE" autoplay muted loop playsinline loading="lazy"></video>
         </div>
         <div class="project-title">
             <h2>SOMETIMES</h2>
@@ -296,8 +268,8 @@
     </a>
 
     <a href="beaugan.html" class="project-block" id="beaugan">
-        <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/350279655?h=683fb71a10&autoplay=1&loop=1&background=1&muted=1">
-            <img src="assets/beaugan_thumbnail.jpg" alt="Beaugan" loading="lazy">
+        <div class="media-container">
+            <video src="PASTE_YOUR_MP4_LINK_HERE" autoplay muted loop playsinline loading="lazy"></video>
         </div>
         <div class="project-title">
             <h2>BEAUGAN</h2>
@@ -307,8 +279,8 @@
     </a>
 
     <a href="marguo-gallery.html" class="project-block" id="marguo">
-        <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/695813702?autoplay=1&loop=1&background=1&muted=1">
-            <img src="assets/marguo_thumbnail.jpg" alt="Marguo Gallery" loading="lazy">
+        <div class="media-container">
+            <video src="PASTE_YOUR_MP4_LINK_HERE" autoplay muted loop playsinline loading="lazy"></video>
         </div>
         <div class="project-title">
             <h2>MARGUO GALLERY</h2>
@@ -318,8 +290,8 @@
     </a>
 
     <a href="all-star-manast-ll.html" class="project-block" id="all-star">
-        <div class="media-container lazy-video-container" data-vimeo="https://player.vimeo.com/video/400239998?autoplay=1&loop=1&background=1&muted=1">
-            <img src="assets/all_star_thumbnail.jpg" alt="All Star" loading="lazy">
+        <div class="media-container">
+            <video src="PASTE_YOUR_MP4_LINK_HERE" autoplay muted loop playsinline loading="lazy"></video>
         </div>
         <div class="project-title">
             <h2>ALL STAR</h2>
@@ -333,7 +305,6 @@
         <div>&copy; 2025 All Rights Reserved</div>
     </footer>
 
-    <!-- INFO OVERLAY -->
     <div class="info-overlay" id="infoOverlay">
         <div class="overlay-header">
             <div class="header-left-group">
@@ -449,76 +420,6 @@
         setInterval(() => {
             document.getElementById('dateDisplay').textContent = new Date().toLocaleString('en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric', hour:'2-digit', minute:'2-digit', hour12:false});
         }, 1000);
-
-        // AUDIO TOGGLES
-        document.querySelectorAll('.audio-toggle').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault(); e.stopPropagation();
-                const iframe = btn.closest('.project-block').querySelector('iframe');
-                if (iframe) {
-                    const player = new Vimeo.Player(iframe);
-                    player.getVolume().then(v => {
-                        const newVol = v === 0 ? 1 : 0;
-                        player.setVolume(newVol);
-                        btn.classList.toggle('sound-on', newVol === 1);
-                    });
-                }
-            });
-        });
-
-        // SMART LAZY LOADING (Mobile Speed Fix) WITH SMOOTH FADE IN
-        document.addEventListener("DOMContentLoaded", function() {
-            const lazyVideos = document.querySelectorAll('.lazy-video-container');
-
-            if ("IntersectionObserver" in window) {
-                const videoObserver = new IntersectionObserver(function(entries, observer) {
-                    entries.forEach(function(entry) {
-                        if (entry.isIntersecting) {
-                            const container = entry.target;
-                            const videoSrc = container.dataset.vimeo;
-
-                            // Only create iframe if it doesn't exist
-                            if (videoSrc && !container.querySelector('iframe')) {
-                                // Create iframe element programmatically
-                                const iframe = document.createElement('iframe');
-                                iframe.src = videoSrc;
-                                iframe.setAttribute('allow', 'autoplay; fullscreen');
-                                iframe.setAttribute('allowfullscreen', '');
-                                iframe.style.position = 'absolute';
-                                iframe.style.top = '0';
-                                iframe.style.left = '0';
-                                iframe.style.width = '100%';
-                                iframe.style.height = '100%';
-                                iframe.style.border = '0';
-                                iframe.style.zIndex = '2'; // Sit on top of image
-
-                                // Fade in on load
-                                iframe.onload = function() {
-                                    // Reduced delay for snappier feel (200ms vs 500ms)
-                                    setTimeout(() => {
-                                        iframe.classList.add('loaded');
-                                        // Fix: Fade out the thumbnail image once video is ready to prevent bleed-through
-                                        const img = container.querySelector('img');
-                                        if (img) {
-                                            setTimeout(() => {
-                                                img.style.opacity = '0';
-                                            }, 200);
-                                        }
-                                    }, 200);
-                                };
-
-                                container.appendChild(iframe);
-                            }
-                            observer.unobserve(container);
-                        }
-                    });
-                }, { rootMargin: "200px" });
-
-                lazyVideos.forEach(function(video) {
-                    videoObserver.observe(video);
-                });
-            }
-        });
     </script>
 </body>
 </html>
