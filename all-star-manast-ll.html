@@ -92,6 +92,8 @@
         .guest-list { list-style: none; padding: 0; margin-top: 10px; display: flex; flex-direction: column; gap: 5px; }
 
         @media(max-width:768px) {
+            #custom-cursor { display: none; }
+            * { cursor: auto !important; }
             .info-grid, .overlay-content, .bio-block { grid-template-columns: 1fr; }
             .bio-block { flex-direction: column; gap: 10px; }
 
@@ -193,7 +195,6 @@
     </div>
 
     <script>
-        // CURSOR
         const cursor = document.getElementById('custom-cursor');
         document.addEventListener('mousemove', e => {
             cursor.style.left = e.clientX + 'px';
@@ -204,12 +205,10 @@
             el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
         });
 
-        // INFO OVERLAY
         const overlay = document.getElementById('infoOverlay');
         document.getElementById('openInfo').onclick = (e) => { e.preventDefault(); overlay.classList.add('active'); };
         document.getElementById('closeInfo').onclick = () => overlay.classList.remove('active');
 
-        // LANGUAGE SWITCHER
         const btnEn = document.getElementById('btn-en');
         const btnFr = document.getElementById('btn-fr');
         const bioEn = document.getElementById('bio-en');

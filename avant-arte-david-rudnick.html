@@ -102,6 +102,8 @@
         .guest-list { list-style: none; padding: 0; margin-top: 10px; display: flex; flex-direction: column; gap: 5px; }
 
         @media(max-width:768px) {
+            #custom-cursor { display: none; }
+            * { cursor: auto !important; }
             .info-grid, .overlay-content, .bio-block { grid-template-columns: 1fr; }
             .thumbnails-row { justify-content: flex-start; }
             .bio-block { flex-direction: column; gap: 10px; }

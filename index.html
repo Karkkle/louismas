@@ -62,7 +62,6 @@
             display: block;
             position: relative;
             width: 100%;
-            /* Removed fixed aspect-ratio: 16 / 9; */
             border-bottom: 1px solid var(--color-accent);
         }
 
@@ -173,6 +172,8 @@
         }
 
         @media (max-width: 768px) {
+            #custom-cursor { display: none; }
+            * { cursor: auto !important; }
             .info-section, .overlay-content, .bio-block { grid-template-columns: 1fr; gap: 30px; }
             .bio-block { flex-direction: column; gap: 10px; }
             .project-title h2 { font-size: clamp(1.5rem, 5vw, 3rem); }
@@ -197,7 +198,6 @@
     </header>
 
     <div class="project-block" id="project-one">
-        <!-- Default aspect ratio 16/9, will be updated by JS -->
         <div class="media-container" style="aspect-ratio: 16/9;">
             <iframe src="https://player.vimeo.com/video/1143476836?h=69c14a788a&autoplay=1&loop=1&muted=1&background=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Vimeo Video"></iframe>
         </div>
