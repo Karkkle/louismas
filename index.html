@@ -59,42 +59,45 @@
 
         /* PROJECT LIST */
         .project-block {
-            display: block; position: relative; width: 100%;
-            aspect-ratio: 16 / 9;
-            overflow: hidden; border-bottom: 1px solid var(--color-accent);
+            display: block;
+            position: relative;
+            width: 100%;
+            /* Removed fixed aspect-ratio: 16 / 9; */
+            border-bottom: 1px solid var(--color-accent);
         }
 
         /* MEDIA CONTAINER */
         .media-container {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            position: relative;
+            width: 100%;
             background: #000;
-            overflow: hidden; /* Ensures scaling doesn't overflow */
+            line-height: 0; /* Prevents tiny gap under images */
         }
 
         /* NATIVE VIDEO STYLING */
         .media-container video {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            pointer-events: none;
+            height: auto;
             display: block;
         }
 
-        /* IFRAME STYLING (For Vimeo Cover Fix) */
+        /* IFRAME STYLING */
         .media-container iframe {
             position: absolute;
-            top: 50%;
-            left: 50%;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            /* Scale up to 130% to crop out black bars (mimics object-fit: cover) */
-            transform: translate(-50%, -50%) scale(1.3);
             border: 0;
             pointer-events: none;
         }
 
         /* Standard Images */
-        .media-container img { width: 100%; height: 100%; object-fit: cover; }
+        .media-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
 
         /* PROJECT OVERLAYS */
         .project-title {
@@ -194,8 +197,8 @@
     </header>
 
     <div class="project-block" id="project-one">
-        <div class="media-container">
-            <!-- REPLACED VIDEO WITH VIMEO EMBED, SCALED TO COVER -->
+        <!-- Default aspect ratio 16/9, will be updated by JS -->
+        <div class="media-container" style="aspect-ratio: 16/9;">
             <iframe src="https://player.vimeo.com/video/1143476836?h=69c14a788a&autoplay=1&loop=1&muted=1&background=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Vimeo Video"></iframe>
         </div>
     </div>
@@ -221,7 +224,7 @@
     </section>
 
     <a href="dont-wake-the-sleeping-child.html" class="project-block" id="dont-wake">
-        <div class="media-container">
+        <div class="media-container" style="aspect-ratio: 16/9;">
             <iframe src="https://player.vimeo.com/video/1139713842?h=f32f84e024&autoplay=1&loop=1&muted=1&background=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Vimeo Video"></iframe>
         </div>
         <div class="project-title">
@@ -243,7 +246,7 @@
     </a>
 
     <a href="open-house-magazine.html" class="project-block" id="open-house">
-        <div class="media-container">
+        <div class="media-container" style="aspect-ratio: 16/9;">
             <iframe src="https://player.vimeo.com/video/827998796?autoplay=1&loop=1&muted=1&background=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Vimeo Video"></iframe>
         </div>
         <div class="project-title">
@@ -265,7 +268,7 @@
     </a>
 
     <a href="sometimes-manast-ll.html" class="project-block" id="sometimes">
-        <div class="media-container">
+        <div class="media-container" style="aspect-ratio: 16/9;">
             <iframe src="https://player.vimeo.com/video/365320979?autoplay=1&loop=1&muted=1&background=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Vimeo Video"></iframe>
         </div>
         <div class="project-title">
@@ -276,7 +279,7 @@
     </a>
 
     <a href="beaugan.html" class="project-block" id="beaugan">
-        <div class="media-container">
+        <div class="media-container" style="aspect-ratio: 16/9;">
             <iframe src="https://player.vimeo.com/video/350279655?h=683fb71a10&autoplay=1&loop=1&muted=1&background=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Vimeo Video"></iframe>
         </div>
         <div class="project-title">
@@ -287,7 +290,7 @@
     </a>
 
     <a href="marguo-gallery.html" class="project-block" id="marguo">
-        <div class="media-container">
+        <div class="media-container" style="aspect-ratio: 16/9;">
              <iframe src="https://player.vimeo.com/video/695813702?autoplay=1&loop=1&muted=1&background=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Vimeo Video"></iframe>
         </div>
         <div class="project-title">
@@ -298,7 +301,7 @@
     </a>
 
     <a href="all-star-manast-ll.html" class="project-block" id="all-star">
-        <div class="media-container">
+        <div class="media-container" style="aspect-ratio: 16/9;">
             <iframe src="https://player.vimeo.com/video/400239998?autoplay=1&loop=1&muted=1&background=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Vimeo Video"></iframe>
         </div>
         <div class="project-title">
@@ -368,7 +371,24 @@
 
     <div id="hover-preview"><img src="" alt="Preview"></div>
 
+    <script src="https://player.vimeo.com/api/player.js"></script>
     <script>
+        // VIMEO RATIO ADAPTER
+        document.querySelectorAll('iframe').forEach(iframe => {
+            const player = new Vimeo.Player(iframe);
+            player.ready().then(() => {
+                Promise.all([player.getVideoWidth(), player.getVideoHeight()]).then(([w, h]) => {
+                    if(w && h) {
+                        const ratio = w / h;
+                        const wrapper = iframe.closest('.media-container');
+                        if (wrapper) {
+                            wrapper.style.aspectRatio = ratio.toString();
+                        }
+                    }
+                }).catch(e => console.log('Video dimensions not available yet', e));
+            });
+        });
+
         // CURSOR
         const cursor = document.getElementById('custom-cursor');
         document.addEventListener('mousemove', e => {
